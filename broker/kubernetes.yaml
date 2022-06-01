@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broker
+  labels:
+    app: broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker
+  template:
+    metadata:
+      labels:
+        app: broker
+    spec:
+      containers:
+        - name: broker
+          image: docker.io/library/rabbitmq
+          ports:
+            - containerPort: 5672
