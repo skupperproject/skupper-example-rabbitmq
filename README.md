@@ -31,17 +31,16 @@ across cloud providers, data centers, and edge sites.
 
 ## Overview
 
-This example is a simple messaging application that shows how you
-can use Skupper to access an RabbitMQ broker at a remote site
-without exposing it to the public internet.
+This example shows how you can use Skupper to access a RabbitMQ
+broker at a remote site without exposing it to the public internet.
 
 It contains two services:
 
-* An RabbitMQ broker running in a private data center.  The broker
+* A RabbitMQ broker running in a private data center.  The broker
   has a queue named "notifications".
 
-* An AMQP client running in the public cloud.  It sends 10 messages
-  to "notifications" and then receives them back.
+* A RabbitMQ client running in the public cloud.  It sends 10
+  messages to "notifications" and then receives them back.
 
 The example uses two Kubernetes namespaces, "private" and "public",
 to represent the private data center and public cloud.
@@ -345,7 +344,27 @@ _Sample output:_
 
 ~~~ console
 $ kubectl run client --attach --rm --restart Never --image quay.io/skupper/rabbitmq-example-client -- broker 5672
-XXX
+Sent message 1
+Sent message 2
+Sent message 3
+Sent message 4
+Sent message 5
+Sent message 6
+Sent message 7
+Sent message 8
+Sent message 9
+Sent message 10
+Received message 1
+Received message 2
+Received message 3
+Received message 4
+Received message 5
+Received message 6
+Received message 7
+Received message 8
+Received message 9
+Received message 10
+pod "client" deleted
 ~~~
 
 ## Accessing the web console
