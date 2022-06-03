@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:skupperproject/skewer.git
 	branch = main
-	commit = 948262a8c0fa5a61f8038bb2c9a163d9d2e367c7
-	parent = 180f398e44640c9628c663a0d926e8b68024358b
+	commit = d87834db8e0c667353a690e6e0d4155fa432b3a7
+	parent = 831db4cda0c38a1b82b627429ac5e4cf5f49285d
 	method = merge
 	cmdver = 0.4.3
