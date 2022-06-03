@@ -1,5 +1,5 @@
 title: Accessing a RabbitMQ message broker using Skupper
-subtitle: Use public cloud resources to process data from a private message broker
+subtitle: Use public cloud resources to process data from an on-prem message broker
 github_actions_url: https://github.com/skupperproject/skupper-example-rabbitmq/actions/workflows/main.yaml
 overview: |
   This example shows how you can use Skupper to access a RabbitMQ
@@ -43,7 +43,7 @@ steps:
       broker on the Skupper network.
 
       Then, in the public namespace, use `kubectl get service/broker`
-      to check that the service appears after a moment.
+      to check that the `broker` service appears after a moment.
     commands:
       private:
         - await: deployment/broker

@@ -2,7 +2,7 @@
 
 [![main](https://github.com/skupperproject/skupper-example-rabbitmq/actions/workflows/main.yaml/badge.svg)](https://github.com/skupperproject/skupper-example-rabbitmq/actions/workflows/main.yaml)
 
-#### Use public cloud resources to process data from a private message broker
+#### Use public cloud resources to process data from an on-prem message broker
 
 
 This example is part of a [suite of examples][examples] showing the
@@ -301,7 +301,7 @@ In the private namespace, use `skupper expose` to expose the
 broker on the Skupper network.
 
 Then, in the public namespace, use `kubectl get service/broker`
-to check that the service appears after a moment.
+to check that the `broker` service appears after a moment.
 
 _**Console for private:**_
 
