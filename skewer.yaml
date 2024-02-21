@@ -1,4 +1,4 @@
-title: Accessing a RabbitMQ message broker using Skupper
+title: Accessing RabbitMQ using Skupper
 subtitle: Use public cloud resources to process data from an on-prem message broker
 overview: |
   This example shows how you can use Skupper to access a RabbitMQ

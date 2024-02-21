@@ -1,4 +1,4 @@
-# Accessing a RabbitMQ message broker using Skupper
+# Accessing RabbitMQ using Skupper
 
 [![main](https://github.com/skupperproject/skupper-example-rabbitmq/actions/workflows/main.yaml/badge.svg)](https://github.com/skupperproject/skupper-example-rabbitmq/actions/workflows/main.yaml)
 
