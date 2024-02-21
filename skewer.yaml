@@ -1,6 +1,5 @@
 title: Accessing a RabbitMQ message broker using Skupper
 subtitle: Use public cloud resources to process data from an on-prem message broker
-github_actions_url: https://github.com/skupperproject/skupper-example-rabbitmq/actions/workflows/main.yaml
 overview: |
   This example shows how you can use Skupper to access a RabbitMQ
   broker at a remote site without exposing it to the public internet.
@@ -17,50 +16,54 @@ overview: |
   to represent the private data center and public cloud.
 sites:
   public:
-    kubeconfig: ~/.kube/config-public
+    title: Public
+    platform: kubernetes
     namespace: public
+    env:
+      KUBECONFIG: ~/.kube/config-public
   private:
-    kubeconfig: ~/.kube/config-private
+    title: Private
+    platform: kubernetes
     namespace: private
+    env:
+      KUBECONFIG: ~/.kube/config-private
 steps:
-  - standard: configure_separate_console_sessions
-  - standard: access_your_clusters
-  - standard: set_up_your_namespaces
-  - standard: install_skupper_in_your_namespaces
-  - standard: check_the_status_of_your_namespaces
-  - standard: link_your_namespaces
+  - standard: install_the_skupper_command_line_tool
+  - standard: kubernetes/set_up_your_namespaces
   - title: Deploy the message broker
     preamble: |
-      In the private namespace, use the `kubectl apply` command to
-      install the broker.
+      In Private, use the `kubectl apply` command to install the
+      broker.
     commands:
       private:
         - run: kubectl apply -f broker
           output: deployment.apps/broker created
+  - standard: kubernetes/create_your_sites
+  - standard: kubernetes/link_your_sites
   - title: Expose the message broker
     preamble: |
-      In the private namespace, use `skupper expose` to expose the
-      broker on the Skupper network.
+      In Private, use `skupper expose` to expose the broker on the
+      Skupper network.
 
-      Then, in the public namespace, use `kubectl get service/broker`
-      to check that the `broker` service appears after a moment.
+      Then, in Public, use `kubectl get service/broker` to check that
+      the `broker` service appears after a moment.
     commands:
       private:
-        - await: deployment/broker
+        - await_resource: deployment/broker
         - run: skupper expose deployment/broker --port 5672
           output: deployment broker exposed as broker
       public:
-        - await: service/broker
+        - await_resource: service/broker
         - run: kubectl get service/broker
           output: |
             NAME     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
             broker   ClusterIP   10.100.58.95   <none>        5672/TCP   2s
   - title: Run the client
     preamble: |
-      In the public namespace, use `kubectl run` to run the client.
+      In Public, use `kubectl run` to run the client.
     commands:
       public:
-        - await: service/broker
+        - await_resource: service/broker
         - run: kubectl run client --attach --rm --restart Never --image quay.io/skupper/rabbitmq-example-client -- broker 5672
           output: |
             Sent message 1
@@ -84,7 +87,6 @@ steps:
             Received message 9
             Received message 10
             pod "client" deleted
-  - standard: accessing_the_web_console
   - standard: cleaning_up
     commands:
       private:
