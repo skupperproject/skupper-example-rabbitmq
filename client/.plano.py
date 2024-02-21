@@ -17,17 +17,29 @@
 # under the License.
 #
 
-FROM python:alpine AS build
+from plano import *
 
-RUN pip install --no-cache-dir pika
+image_tag = "quay.io/skupper/rabbitmq-example-client"
 
-FROM python:alpine AS run
+@command
+def build(no_cache=False):
+    no_cache_arg = "--no-cache" if no_cache else ""
 
-RUN adduser -S fritz -G root
-USER fritz
+    run(f"podman build {no_cache_arg} --format docker -t {image_tag} .")
 
-COPY --from=build /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
-COPY --chown=fritz:root main.py /home/fritz/main.py
+@command
+def run_():
+    run(f"podman run --net host {image_tag} localhost 5672")
 
-WORKDIR /home/fritz
-ENTRYPOINT ["python", "main.py"]
+@command
+def run_broker():
+    run("podman run --net host docker.io/library/rabbitmq")
+
+@command
+def debug():
+    run(f"podman run -it --net host --entrypoint /bin/sh {image_tag}")
+
+@command
+def push():
+    run("podman login quay.io")
+    run(f"podman push {image_tag}")
